@@ -18,7 +18,7 @@ interface Results {
 interface State {
 	error:string,
 	currentTheme:number,
-	result_history:Results[],
+	resultHistory:Results[],
 	expression:string,
 	calculated:boolean,
 }
@@ -27,7 +27,7 @@ class App extends Component<Props, State> {
 		
 	readonly state : State = {
 		error: '',
-		result_history : [],
+		resultHistory : [],
 		expression : "10+10",
 		calculated : false,
 		currentTheme:1,
@@ -39,101 +39,98 @@ class App extends Component<Props, State> {
 
 	readonly self = this;
 
-	public allBtns = document.getElementsByClassName('calculator__btn');
-	public displayScreen = document.querySelector('.results');
-	
 
 	static getDerivedStateFromError = (error:any) => {
-		console.log(error)
+		//console.log(error)
 
 	}
 
-	componentDidCatch = (error: any, info: any) => {
-		console.log(error)
+	componentDidCatch = (error: any) => {
+		//console.log(error)
 	}
 
 	componentDidMount = () => {
 		this.disablSoftKeyboard()
-		let allBtns = document.querySelector('.calculator__buttons');
-		
-		allBtns?.addEventListener('click', this.handleCalculations)
-		document.addEventListener('resize', this.handleResize)
+		const allBtns = document.querySelector('.calculator-buttons') as HTMLDivElement;
+				
+		allBtns?.addEventListener('click', this.handleKeyboard)
+				
 		let currentTheme = this.state.currentTheme;
-	
-		document.body.classList.add(`theme-${currentTheme}`);
+		document.body.classList.add(`view-${currentTheme}`);
 			
 	}
 
+	// Swicth theme and keep input box focused.
 	changeTheme = () => {
-		let themeSwitch = document.querySelector('.switch-view') as HTMLDivElement;
-		let justifyValues = ['start', 'center', 'end']; 
+		let justifyValues = ['flex-start', 'center', 'flex-end']; 
 		let currentTheme = this.state.currentTheme;
-		console.log("From State: ",currentTheme)
+		
 		if (currentTheme === 3) {
-			document.body.classList.remove(`theme-${currentTheme-1}`)
-			document.body.classList.remove(`theme-${currentTheme}`)
+			document.body.classList.remove(`view-${currentTheme-1}`)
+			document.body.classList.remove(`view-${currentTheme}`)
 			currentTheme = 0
 			
 		}
-
-		console.log(currentTheme)
 		
 		currentTheme++
-		console.log("After incremation",currentTheme)
-		document.body.classList.add(`theme-${currentTheme}`);
-		themeSwitch.style.justifyContent = justifyValues[currentTheme - 1]
+		document.body.classList.add(`view-${currentTheme}`);
+		let viewSwitch = document.querySelector('.change-view') as HTMLDivElement;
+		viewSwitch.style.justifyContent = justifyValues[currentTheme - 1]
 				
 		this.setState({currentTheme})
-
+		const input = document.querySelector('.calculator-input') as HTMLInputElement;
+		input.focus();
 	}
 
+	//Disable soft keyboard on mibile
 	disablSoftKeyboard = () => {
-		if(window.matchMedia("max-width : 980px)").matches) return;
-
-		let inputVal = document.getElementById('calcutator-input') as HTMLInputElement;
+		let input = document.querySelector('.calculator-input') as HTMLInputElement;
+		input.focus();
 		
-		if(inputVal){
-			inputVal.readOnly = true;
-			inputVal.focus();
-
-			setTimeout(function(){
-				inputVal = document.getElementById('calcutator-input') as HTMLInputElement;
-				if(inputVal) inputVal.readOnly = false;
+		if(window.matchMedia("(max-width : 980px)").matches){
+		
+			// Prevent soft keyboard from poping up.
+			input.readOnly = true;
+		
+			setTimeout(() => {
+				input = document.querySelector('.calculator-input') as HTMLInputElement;;
+				input.readOnly = false;
 			});
+		}else{
+
+			input.readOnly = false;
 		}
-
 	}
-
+	
 	handleFormChange = (e: { preventDefault: () => void; target: { [x: string]: any; }; }) => {
 		if (e) e.preventDefault()
 		this.disablSoftKeyboard();
 	
 		let data:string = e.target['value']
-		console.log(e.target.selectionStart)
-		console.log(e.target.selectionEnd)
-		console.log(`FormData: ${data}`)
+		
 		if(data.length === 0){
 			this.setState({calculated:false})
 		}
 
 		this.setState({expression:data, error:''})
-	} 
+	}; 
 
+	// Process results when Enter key is pressed.
 	handleSubmit = (e:any) => {
 		e.preventDefault();
-		console.log(e)
+		this.processResults();
+	};
 
-	}
-
+	// Do calculations on current expression. 
 	processResults = (expression?:string) => {
-		console.log("   ")
 		
-		console.log(`Current Expression ${this.state.expression}`)
 		if (!expression) {
 			expression = this.state.expression;
 		}
 
 		expression = expression.replaceAll(/\s/g, "");
+		expression = expression.replaceAll('x', "*")
+		expression = expression.replaceAll('X', "*")
 		let results:string = '';
 
 		let isValid = this.isValidExpression(expression)
@@ -142,6 +139,8 @@ class App extends Component<Props, State> {
 		}
 
 		if (expression && !expression.includes('%')) {
+			
+			console.log(expression)
 			results = results += `${expression}`;	
 			return this.setResults(results)		
 		}
@@ -156,7 +155,6 @@ class App extends Component<Props, State> {
 		let decimalVal2:number = 0;
 		
 		let executableStr:string = '';
-		let hasExecutable:boolean = false;
 	
 		for (let index = 0; index < expression.length; index++) {
 			const element = expression[index];
@@ -178,8 +176,7 @@ class App extends Component<Props, State> {
 										
 					decimalVal1 = Calc.percentageOf(1)
 					results = `${decimalVal1}`;
-					console.log(`First Percentage ${operand1} of ${1} is: ${decimalVal1}`)
-
+					
 				}else if(!decimalVal2){
 					
 					const calcParams = {
@@ -190,9 +187,6 @@ class App extends Component<Props, State> {
 					const Calc = new Calculator(calcParams);
 					results = Calc.getResults(operator)
 					decimalVal2 = parseFloat(results);
-
-					console.log(`Second percentage ${operand2} of ${decimalVal1} is: ${results}`)
-					
 				}		
 										
 			}else if(!decimalVal1 && !this.isSymbol(element) && !operator){
@@ -213,9 +207,7 @@ class App extends Component<Props, State> {
 			if(decimalVal1 && operand2){
 				if (!executableStr) {
 					results = executableStr += `${decimalVal1}${operator}${operand2}`
-					console.log(executableStr)
 				}
-				
 			}
 		
 			if (results) {
@@ -233,115 +225,104 @@ class App extends Component<Props, State> {
 		}
 
 		return true
-
-	}
+	};
 
 	handleErrors = () => {
 		let error:string = "Malformed Expression"
 		this.setState({error});
 
-	}
+	};
 
 	isSymbol = (element:string):boolean => {
 		let symbols:string[] = ['+','-', 'x', '=', '/', '*'];
 		return symbols.includes(element)
-	}
+	};
 
 	setResults = (expression:string, format:number = 0) => {
 		
 		try {
 			let results = eval(expression)?.toFixed(format);
-			console.log(`RESULTS OF ${results} IS: ${expression}`)
-			console.log(" ")
-			const result_history = this.state.result_history
 			
-			result_history.push({expression, results})
+			const resultHistory = this.state.resultHistory
+			
+			resultHistory.push({expression, results})
 					
-			this.setState({result_history, expression:results, calculated:true})
+			this.setState({resultHistory, expression:results, calculated:true})
+
+			// Scroll the display screen after updating results few millisecond afer. 
+			setTimeout(() => {
+				this.scrollResultsDisplay()
+			}, 100);
 			
+
 		} catch (error) {
 			this.handleErrors()
-			throw new Error("Malformed Expression");
 		}
-	
-
 	};
 
-	/**
-	 * a
-	 */
-	 public handleCalculations = (e: any) => {
-		let clicked = e?.target
+	scrollResultsDisplay = () => {
 
-		const input = document.getElementById('calculator-input') as HTMLInputElement;
+		let resultsDisplay = document.querySelector('.results-history-screen') as HTMLDivElement;
+	
+		resultsDisplay.scrollTop = resultsDisplay.scrollHeight;
+		resultsDisplay.scrollIntoView(false);
+	}
+
+	//On page keyboard handler.
+	public handleKeyboard = (e: any) => {
+		let clicked = e?.target
 		this.disablSoftKeyboard()
 
-		console.log(clicked)
-	
-		console.log(clicked.classList.contains('calculator-btn-icon'))
-	
-		if (clicked?.classList.contains("calculator__btn") || 
+		if (clicked?.classList.contains("calculator-btn") || 
 			clicked.classList.contains('calculator-btn-icon')) {
 
 			let value = clicked.dataset.value;
-			
-			console.log(`Value: ${value}`,typeof value)
+						
 			if (value === 'result') {
-				return	this.processResults()
+				this.processResults()
 				
 			}else if(value === 'reset') {
-				this.setState({expression:'', error:''})
-			}else if(value === 'del'){
+				this.setState({expression:'', error:''});
+
+			}else if(value === 'delete'){
+				this.deleteFromExpression();
 
 			}else{
-
-				console.log("Clicked btn ", value);
-				let result = document.querySelector('.results');
-				
-				let start:number = input.selectionStart || 0;
-				let end:number = input.selectionEnd || 0;
-				let selectionMode:SelectionMode = 'end';
-				input.setRangeText(`${value}`, start, end, selectionMode)
-
-				console.log('Contents: ', input.value)
-				this.setState({expression:input.value, error:''})
-				
+				this.insertExpression(value)
 			}
 		}
 
 	}
 
-	handleResize(event:any) {
-		this.disablSoftKeyboard()
-		console.log(event)
-		alert("I'm openning the soft keyboard.")
-		throw new Error('Method not implemented.');
-	}
+	// Track cursor position and insert carecter in.
+	insertExpression = (value:string) => {
+		const input =  document.querySelector('.calculator-input') as HTMLInputElement;
+		
+		let start:number = input.selectionStart || 0;
+		let end:number = input.selectionEnd || 0;
+	
+		let selectionMode:SelectionMode = 'end';
+		input.setRangeText(`${value}`, start, end, selectionMode)
+		this.setState({expression:input.value, error:''})
 
-	keyCalcution (this: Document, event: KeyboardEvent) {
-		
-				
-		let pressedKey = null;
-		//let operations = this.state['operations'];
-		let result = document.querySelector('.results');
-		
-		console.log(result?.textContent)
-		let text:any = result?.textContent
-		//let calc:string = result?.textContent
+	};
 
+	//On page key delete handler.. 
+	deleteFromExpression = () => {
+		const input =  document.querySelector('.calculator-input') as HTMLInputElement;
 		
-		if (event) {
-			pressedKey = event.key;
-			//this.setState({operations:text})
-			
-			console.log(event.key)
-			if (pressedKey === '%'){
-				//console.log("Calculating percetage")
-			}
-			//throw new Error('Method not implemented.');
+		let expressionArray:string[] =  Array.from(input.value)
+
+		if (expressionArray.length) {
+			let start:number = input.selectionStart || 0;
+			expressionArray.splice(start-1, 1);
+	
+			let  expression = expressionArray.join('')
+		
+			this.setState({expression})
 		}
-	}
 
+	}
 
 	render(): React.ReactNode {
 		const props = {
@@ -350,6 +331,7 @@ class App extends Component<Props, State> {
 			handleSubmit :   this.handleSubmit.bind(this),
 			processResults: this.processResults.bind(this),
 			changeTheme: this.changeTheme.bind(this),
+			disablSoftKeyboard : this.disablSoftKeyboard.bind(this),
 		}
 
 		return (

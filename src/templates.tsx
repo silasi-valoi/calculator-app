@@ -10,17 +10,18 @@ interface Props {
 	handleFormChange:Function,
     processResults:Function,
 	handleSubmit:Function,
+	disablSoftKeyboard:Function,
 	changeTheme:Function,
     expression:string,
-	result_history:Results[],
+	resultHistory:Results[],
 	error:string,
 	calculated:boolean,
 	
 }
 
 const CalcTemplate = (props:Props) => {
-	let iconSize:number = 15;
-	let result_history = props.result_history;
+	let iconSize:number = 17;
+	let resultHistory = props.resultHistory;
 	
 	if (window.matchMedia("(min-width : 980px)").matches) {
 		iconSize = 30;
@@ -28,20 +29,20 @@ const CalcTemplate = (props:Props) => {
 
     return (
         <div className="calculator-box">
-			<header className="header-box">
-				<div className="title">
+			<header className="header-box d-flex">
+				<div className="calculator-title">
 					<b>CALCULATOR</b>
 				</div>
 
-				<div className="theme-change-box">
-					<b className="theme-title">THEME</b>
-					<div className="theme-contents">
-						<div className="theme-number">
+				<div className="change-view-box d-flex">
+					<b className="view-change-title">THEME</b>
+					<div className="change-view-contents">
+						<div className="change-view-counter d-flex">
 							<div>1</div>
 							<div>2</div>
 							<div>3</div>
 						</div>
-						<div className="switch-view">
+						<div className="change-view d-flex">
 							<div onClick={() => props.changeTheme()} className="ball"></div>
 						</div>
 					</div>
@@ -50,17 +51,21 @@ const CalcTemplate = (props:Props) => {
 			</header>
 
 			<section className="display-screen container">
-				<div className="results-history-screen">
-					{result_history.map((value, key)=>(
-						<ul key={key} className="results-history">
-							<li className="expression">{value.expression}</li>
-							<li className="equality">=</li>
-							<li className="results">
+				{resultHistory.length?
+					<div className="results-history-screen">
+						{resultHistory.map((value, key)=>(
+							<ul key={key} className="results-history">
+								<li className="expression">{value.expression}</li>
+								<li className="equality">=</li>
+								<li className="results">
 								<span>{value.results}</span>
-							</li>
-						</ul>
-					))}
-				</div>
+								</li>
+							</ul>
+						))}
+					</div>
+					:
+					null
+				}
 				
 				<form onSubmit={(e) => props.handleSubmit(e)} 
 					className="calculator-input-form">
@@ -68,25 +73,32 @@ const CalcTemplate = (props:Props) => {
 						<input
 							id="calculator-input"
 							className="calculator-input"
+							tabIndex={1}
+							readOnly={true}
 						   	autoFocus={true} 
+							onClick={() => props.disablSoftKeyboard()}
 							onChange={(e) =>props.handleFormChange(e)}
 						   	value={props.expression}
 						   	type="text"
 						/>
 					</div>
 				</form>
-				<div className="error-message">
-					<ul>
-						<li>{props.error}</li>
-					</ul>
-				</div>
+				{props.error?
+					<div className="error-message">
+						<ul>
+							<li>{props.error}</li>
+						</ul>
+					</div>
+					:
+					null
+				}
 			</section>
 
-            <section className="calculator__buttons">
-      			<div className="calculator__btn" data-value="7">7</div>
-     			<div className="calculator__btn" data-value="8">8</div>
-      			<div className="calculator__btn" data-value="9">9</div>
-      			<div className="calculator__btn calculator__btn--del" data-value="delete">
+            <section className="calculator-buttons">
+      			<div className="calculator-btn" data-value="7">7</div>
+     			<div className="calculator-btn" data-value="8">8</div>
+      			<div className="calculator-btn" data-value="9">9</div>
+      			<div className="calculator-btn calculator-btn-delete" data-value="delete">
 				    <button className="operator-btn btn-sm delete-btn">
             			<Icon.Delete 
 							className="calculator-btn-icon"
@@ -96,41 +108,41 @@ const CalcTemplate = (props:Props) => {
         			</button>
       			</div>
       		
-				<div className="calculator__btn" data-value="4">4</div>
-     			<div className="calculator__btn" data-value="5">5</div>
-      			<div className="calculator__btn" data-value="6">6</div>
-      			<div className="calculator__btn" data-value="+">
+				<div className="calculator-btn" data-value="4">4</div>
+     			<div className="calculator-btn" data-value="5">5</div>
+      			<div className="calculator-btn" data-value="6">6</div>
+      			<div className="calculator-btn" data-value="+">
 				    <button className="operator-btn btn-sm">
             			<Icon.Plus className="calculator-btn-icon" data-value="+" size={iconSize}/>
         			</button>
 				</div>
-      			<div className="calculator__btn" data-value="1">1</div>
-     		 	<div className="calculator__btn" data-value="2">2</div>
-      			<div className="calculator__btn" data-value="3">3</div>
-      			<div className="calculator__btn" data-value="-">
+      			<div className="calculator-btn" data-value="1">1</div>
+     		 	<div className="calculator-btn" data-value="2">2</div>
+      			<div className="calculator-btn" data-value="3">3</div>
+      			<div className="calculator-btn" data-value="-">
 				    <button className="operator-btn btn-sm">
             			<Icon.Minus className="calculator-btn-icon" data-value="-" size={iconSize}/>
         			</button>
 				</div>
-      			<div className="calculator__btn" data-value=".">.</div>
-      			<div className="calculator__btn" data-value="0">0</div>
-      			<div className="calculator__btn" data-value="/">
+      			<div className="calculator-btn" data-value=".">.</div>
+      			<div className="calculator-btn" data-value="0">0</div>
+      			<div className="calculator-btn" data-value="/">
 				    <button className="operator-btn btn-sm">
             			<Icon.Divide className="calculator-btn-icon" data-value="/" size={iconSize}/>
         			</button>
 				</div>
-      			<div className="calculator__btn" data-value="x">
+      			<div className="calculator-btn" data-value="x">
 				    <button className="operator-btn btn-sm">
-            			<Icon.X className="calculator-btn-icon" data-value="x" size={iconSize}/>
+            			<Icon.X className="calculator-btn-icon" data-value="*" size={iconSize}/>
         			</button>
 				</div>
-      			<div className="calculator__btn calculator__btn--reset" data-value="reset">
+      			<div className="calculator-btn calculator-btn-reset" data-value="reset">
         			RESET
      			</div>
-      			<div className="calculator__btn calculator__btn--result" data-value="result">
+      			<div className="calculator-btn calculator-btn-result" data-value="result">
         			=
       			</div>
-    		</section>
+    		</section >
         </div>
         
     );
@@ -138,11 +150,3 @@ const CalcTemplate = (props:Props) => {
 
 export default CalcTemplate;
 
-/*
-
-*/ 
-
-
-/*
-
-			*/

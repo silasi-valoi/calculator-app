@@ -1,260 +1,254 @@
 :root {
-	/* Screen Size  */
-	--mobile-screen-size: 375px;
-	--desktop--screen-size: 1440px;
-
+	
 	/* Colors */
 
-	/* Theme 1 */
+	/* Vview 1 */
 
 	/* Backgrounds */
 
-	--theme1-main-background: hsl(222, 26%, 31%);
-	--theme1-keypad-background: hsl(223, 31%, 20%);
-	--theme1-screen-background: hsl(224, 36%, 15%);
+	--view1-main-background: hsl(222, 26%, 31%);
+	--view1-keypad-background: hsl(223, 31%, 20%);
+	--view1-screen-background: hsl(224, 36%, 15%);
 
-	--theme1-key-background-blue: hsl(225, 21%, 49%);
-	--theme1-key-shadow-blue: hsl(224, 28%, 35%);
+	--view1-key-background-blue: hsl(225, 21%, 49%);
+	--view1-key-shadow-blue: hsl(224, 28%, 35%);
 
-	--theme1-key-background-red: hsl(6, 63%, 50%);
-	--theme1-key-shadow-red: hsl(6, 70%, 34%);
+	--view1-key-background-red: hsl(6, 63%, 50%);
+	--view1-key-shadow-red: hsl(6, 70%, 34%);
 
-	--theme1-key-background-white: hsl(30, 25%, 89%);
-	--theme1-key-shadow-white: hsl(28, 16%, 65%);
+	--view1-key-background-white: hsl(30, 25%, 89%);
+	--view1-key-shadow-white: hsl(28, 16%, 65%);
 	
 	/* Text */
 
-	--theme1-grayish-blue: hsl(221, 14%, 31%);
+	--view1-grayish-blue: hsl(221, 14%, 31%);
 	--white: hsl(0, 0, 100%);
 
-	 /* Theme 2 */
+	/* View 2 */
 
-        /* Backgrounds */
+    /* Backgrounds */
 
-        --theme2-main-background: hsl(0, 0%, 90%);
-        --theme2-keypad-background: hsl(0, 5%, 81%);
-        --theme2-screen-background: hsl(0, 0%, 93%);
-
-        /* Keys */
-
-        --theme2-key-background-cyan: hsl(185, 42%, 37%);
-        --theme2-key-shadow-cyan: hsl(185, 58%, 25%);
-
-        --theme2-key-background-orange: hsl(25, 98%, 40%);
-        --theme2-key-shadow-orange: hsl(25, 99%, 27%);
-
-        --theme2-key-background-white: hsl(45, 7%, 89%);
-        --theme2-key-shadow-white: hsl(35, 11%, 61%);
-
-        /* Text */
-
-        --theme2-yellow: hsl(60, 10%, 19%);
-
-        /* Theme 3 */
-
-        /* Backgrounds */
-
-        --theme3-main-background: hsl(268, 75%, 9%);
-        --theme3-keypad-background: hsl(268, 71%, 12%);
-        --theme3-screen-background: hsl(268, 71%, 12%);
+    --view2-main-background: hsl(0, 0%, 90%);
+    --view2-keypad-background: hsl(0, 5%, 81%);
+    --view2-screen-background: hsl(0, 0%, 93%);
 
         /* Keys */
 
-        --theme3-key-background-violet: hsl(281, 89%, 26%);
-        --theme3-key-shadow-violet: hsl(285, 91%, 52%);
+    --view2-key-background-cyan: hsl(185, 42%, 37%);
+    --view2-key-shadow-cyan: hsl(185, 58%, 25%);
 
-        --theme3-key-background-green: hsl(176, 100%, 44%);
-        --theme3-key-shadow-green: hsl(177, 92%, 70%);
+    --view2-key-background-orange: hsl(25, 98%, 40%);
+    --view2-key-shadow-orange: hsl(25, 99%, 27%);
 
-        --theme3-key-background-purple: hsl(268, 47%, 21%);
-        --theme3-key-shadow-purple: hsl(290, 70%, 36%);
+    --view2-key-background-white: hsl(45, 7%, 89%);
+    --view2-key-shadow-white: hsl(35, 11%, 61%);
 
-        /* Text */
+    /* Text */
 
-        --theme3-yellow: hsl(52, 100%, 62%);
-        --theme3-blue: hsl(198, 20%, 13%);
+    --view2-yellow: hsl(60, 10%, 19%);
+
+    /* View 3 */
+
+    /* Backgrounds */
+
+    --view3-main-background: hsl(268, 75%, 9%);
+    --view3-keypad-background: hsl(268, 71%, 12%);
+    --view3-screen-background: hsl(268, 71%, 12%);
+
+    /* Keys */
+
+    --view3-key-background-violet: hsl(281, 89%, 26%);
+    --view3-key-shadow-violet: hsl(285, 91%, 52%);
+
+    --view3-key-background-green: hsl(176, 100%, 44%);
+    --view3-key-shadow-green: hsl(177, 92%, 70%);
+
+    --view3-key-background-purple: hsl(268, 47%, 21%);
+    --view3-key-shadow-purple: hsl(290, 70%, 36%);
+
+    /* Text */
+
+    --view3-yellow: hsl(52, 100%, 62%);
+    --view3-blue: hsl(198, 20%, 13%);
 }
 
 
 
-.theme-1 {
-	background-color: var(--theme1-main-background);
-	color: var(--theme1-key-background-white);
+.view-1 {
+	background-color: var(--view1-main-background);
+	color: var(--view1-key-background-white);
 }
 
-.theme-1 .display-screen {
-	background-color: var(--theme1-screen-background);
+.view-1 .display-screen {
+	background-color: var(--view1-screen-background);
 }
 
-.theme-1 .calculator__buttons {
-	background-color: var(--theme1-keypad-background);
+.view-1 .calculator-buttons {
+	background-color: var(--view1-keypad-background);
 }
 
-.theme-1 .calculator__btn .operator-btn,
-.theme-1 .calculator__btn {
-	background-color: var(--theme1-key-background-white);
-	color: var(--theme1-grayish-blue);
-	box-shadow: 0px 0.5rem 0px var(--theme1-key-shadow-white);
+.view-1 .calculator-btn .operator-btn,
+.view-1 .calculator-btn {
+	background-color: var(--view1-key-background-white);
+	color: var(--view1-grayish-blue);
+	box-shadow: 0px 0.5rem 0px var(--view1-key-shadow-white);
 }
     
-.theme-1  .calculator__btn .delete-btn,
-.theme-1 .calculator__btn--reset,
-.theme-1 .calculator__btn--del {
-	background-color: var(--theme1-key-background-blue);
-	color: var(--theme1-key-background-white);
-	box-shadow: 0px 0.5rem 0px var(--theme1-key-shadow-blue);
-  }
-  .theme-1 .calculator__btn--result {
-	background-color: var(--theme1-key-background-red);
-	color: var(--theme1-key-background-white);
-	box-shadow: 0px 0.5rem 0px var(--theme1-key-shadow-red);
-  }
-  .theme-1 .switch-view {
-	background-color: var(--theme1-keypad-background);
-  }
-  .theme-1 .ball {
-	background-color: var(--theme1-key-background-red);
-  }
+.view-1 .calculator-btn .delete-btn,
+.view-1 .calculator-btn-reset,
+.view-1 .calculator-btn-delete {
+	background-color: var(--view1-key-background-blue);
+	color: var(--view1-key-background-white);
+	box-shadow: 0px 0.5rem 0px var(--view1-key-shadow-blue);
+}
 
-  /* Theme-2 */
+.view-1 .calculator-btn-result {
+	background-color: var(--view1-key-background-red);
+	color: var(--view1-key-background-white);
+	box-shadow: 0px 0.5rem 0px var(--view1-key-shadow-red);
+}
 
-  .theme-2 {
-	background-color: var(--theme2-main-background);
-	color: var(--theme2-yellow);
-  }
-  .theme-2 .display-screen {
-	background-color: var(--theme2-screen-background);
-  }
-  .theme-2 .calculator__buttons {
-	background-color: var(--theme2-keypad-background);
-  }
-  .theme-2 .operator-btn,
-  .theme-2 .calculator__btn {
-	background-color: var(--theme2-key-background-white);
-	color: var(--theme2-yellow);
-	box-shadow: 0px 0.5rem 0px var(--theme2-key-shadow-white);
-  }
-  .theme-2 .calculator__btn .delete-btn,
-  .theme-2 .calculator__btn--reset,
-  .theme-2 .calculator__btn--del {
-	background-color: var(--theme2-key-background-cyan);
-	color: var(--theme2-key-background-white);
-	box-shadow: 0px 0.5rem 0px var(--theme2-key-shadow-cyan);
-  }
-  .theme-2 .calculator__btn--result {
-	background-color: var(--theme2-key-background-orange);
-	color: var(--theme2-key-background-white);
-	box-shadow: 0px 0.5rem 0px var(--theme2-key-shadow-orange);
-  }
-  .theme-2 .switch-view {
-	background-color: var(--theme2-keypad-background);
-  }
-  .theme-2 .ball {
-	background-color: var(--theme2-key-background-orange);
-  }
-  /* Theme-3 */
+.view-1 .change-view {
+	background-color: var(--view1-keypad-background);
+}
 
-  .theme-3 {
-	background-color: var(--theme3-main-background);
-	color: var(--theme3-yellow);
-  }
-  .theme-3 .display-screen {
-	background-color: var(--theme3-screen-background);
-  }
-  .theme-3 .calculator__buttons {
-	background-color: var(--theme3-keypad-background);
-  }
-  .theme-3 .calculator__btn {
-	background-color: var(--theme3-key-background-purple);
-	color: var(--theme3-yellow);
-	box-shadow: 0px 0.5rem 0px var(--theme3-key-shadow-purple);
-  }
+.view-1 .ball {
+	background-color: var(--view1-key-background-red);
+}
 
-  .theme-3 .operator-btn {
-	background-color: var(--theme3-key-background-purple) !important;
-	color: var(--theme3-yellow) !important;
-  }
+/* Theme-2 */
 
-  .theme-3 .calculator__btn--reset,
-  .theme-3 .calculator__btn--del {
-	background-color: var(--theme3-key-background-violet);
+.view-2 {
+	background-color: var(--view2-main-background);
+	color: var(--view2-yellow);
+}
+
+.view-2 .display-screen {
+	background-color: var(--view2-screen-background);
+}
+
+.view-2 .calculator-buttons {
+	background-color: var(--view2-keypad-background);
+}
+
+.view-2 .operator-btn,
+.view-2 .calculator-btn {
+	background-color: var(--view2-key-background-white);
+	color: var(--view2-yellow);
+	box-shadow: 0px 0.5rem 0px var(--view2-key-shadow-white);
+}
+
+.view-2 .calculator-btn .delete-btn,
+.view-2 .calculator-btn-reset,
+.view-2 .calculator-btn-delete {
+	background-color: var(--view2-key-background-cyan);
+	color: var(--view2-key-background-white);
+	box-shadow: 0px 0.5rem 0px var(--view2-key-shadow-cyan);
+}
+
+.view-2 .calculator-btn-result {
+	background-color: var(--view2-key-background-orange);
+	color: var(--view2-key-background-white);
+	box-shadow: 0px 0.5rem 0px var(--view2-key-shadow-orange);
+}
+
+.view-2 .change-view {
+	background-color: var(--view2-keypad-background);
+}
+
+.view-2 .ball {
+	background-color: var(--view2-key-background-orange);
+}
+
+/* View-3 */
+
+.view-3 {
+	background-color: var(--view3-main-background);
+	color: var(--view3-yellow);
+}
+
+.view-3 .display-screen {
+	background-color: var(--view3-screen-background);
+}
+
+.view-3 .calculator-buttons {
+	background-color: var(--view3-keypad-background);
+}
+
+.view-3 .calculator-btn {
+	background-color: var(--view3-key-background-purple);
+	color: var(--view3-yellow);
+	box-shadow: 0px 0.5rem 0px var(--view3-key-shadow-purple);
+}
+
+.view-3 .operator-btn {
+	background-color: var(--view3-key-background-purple) !important;
+	color: var(--view3-yellow) !important;
+}
+
+.view-3 .calculator-btn-reset,
+.view-3 .calculator-btn-delete {
+	background-color: var(--view3-key-background-violet);
 	color: #fff;
-	box-shadow: 0px 0.5rem 0px var(--theme3-key-shadow-violet);
-  }
+	box-shadow: 0px 0.5rem 0px var(--view3-key-shadow-violet);
+}
 
-  .theme-3 .delete-btn {
-	background-color: var(--theme3-key-background-violet) !important;
+.view-3 .delete-btn {
+	background-color: var(--view3-key-background-violet) !important;
+}
 
-  }
-  .theme-3 .calculator__btn--result {
-	background-color: var(--theme3-key-background-green);
-	color: var(--theme3-key-background-purple);
-	box-shadow: 0px 0.5rem 0px var(--theme3-key-shadow-green);
-  }
-  .theme-3 .switch-view {
-	background-color: var(--theme3-keypad-background);
-  }
-  .theme-3 .ball {
-	background-color: var(--theme3-key-background-green);
-  }
+.view-3 .calculator-btn-result {
+	background-color: var(--view3-key-background-green);
+	color: var(--view3-key-background-purple);
+	box-shadow: 0px 0.5rem 0px var(--view3-key-shadow-green);
+}
+
+.view-3 .change-view {
+	background-color: var(--view3-keypad-background);
+}
+
+.view-3 .ball {
+	background-color: var(--view3-key-background-green);
+}
 
 
 
 .calculator-container {
-	border: px solid black;	
 	padding: 3%;
 }
 
-.calculator-box {
-	border: px solid blue;
-}
-
 .header-box {
-	border:px solid red;
 	width: 100%;
-	
 }
 
-.header-box, .theme-change-box, .theme-number, .switch-view {
-	display: flex;
-	
-}
-
-.title {
+.calculator-title {
 	margin-top: 1rem;
 }
 
-.theme-change-box {
+.change-view-box {
 	width: 100%;
 	justify-content: flex-end;
-	border: px solid black
+
 }
 
-.theme-title {
+.view-change-title {
 	margin-top: 1rem;
 	margin-right: 0.5rem;
 }
 
-.theme-contents {
-	border : px solid blue;
-}
-
-.theme-number {
+.change-view-counter {
 	margin: 5px;
 	gap: 2rem;
 }
 
-.switch-view {
+.change-view {
 	border-radius: 5rem;
 	padding: 3px;
-	
 }
 
-.switch-view .ball {
-	border: px solid red;
+.change-view .ball {
 	width: 1rem;
 	height: 1rem;
-	
 	border-radius: 50%;
 	cursor: pointer;
 }
@@ -263,46 +257,69 @@
 	padding: 0;
 	border-radius: 1rem;
 	margin: 5% 0;
+	min-height: 60px;
 }
 
 .results-history-screen {
-	border: px solid red;
-	max-height: 70px;
+	max-height: 120px;
 	overflow:auto;
+	overscroll-behavior: smooth;
+	border-top-right-radius: 1rem;
+	border-top-left-radius: 1rem;
 	padding: 0.5rem 0 0;
+}
+
+.view-2 .display-screen {
+	background-color: var(--view2-keypad-background);
+}
+
+
+.view-3 .display-screen {
+	background-color: var(--view3-screen-background);
+}
+
+.view-1 .results-history-screen {
+	background-color: var(--view1-keypad-background);
+}
+
+.view-2 .results-history-screen {
+	background-color: rgb(221, 218, 218);
+}
+
+.view-3 .results-history-screen {
+	background-color: var(--view3-key-background-purple);
 }
 
 .error-message {
 	padding: 0 1rem 0.5rem;
+	font-size: small;
+	color: hotpink;
 }
 
-.theme-1 .results-history {
-	border-bottom: 1px solid var(--theme1-main-background);
+.view-1 .results-history {
+	border-bottom: 0.01rem solid hsl(225, 27%, 23%);
 }
 
-
-.theme-2 .results-history {
-	border-bottom:1px solid var(--theme2-keypad-background);
+.view-2 .results-history {
+	border-bottom:1px solid var(--view2-keypad-background);
 }
 
-
-.theme-3 .results-history {
-	border-bottom: 1px solid var(--theme3-main-background);
+.view-3 .results-history {
+	border-bottom: 1px solid var(--view3-main-background);
 }
-
-
 
 .results-history {
 	display: flex;
 	width: 100%;
-	border-bottom: 0.01rem solid hsl(0, 2%, 59%);
+	padding: 0.1rem 0.5rem;
+	
 }
 
 .results-history .expression {
 	width: 60%;
 	margin-left: 0.5rem;
-
 }
+
 .results {
 	display: flex;
 	justify-content: flex-end;
@@ -311,62 +328,53 @@
 }
 
 .calculator-input-form {
-	border: px solid red;
 	margin: 2% 0;
-	
-}
-
-.calculator-input-box {
-	border: px solid blue;
-	width: 100%;
-	display: flex;
+	padding: 0.8rem 0 0.5rem;
 }
 
 .calculator-input {
 	width: 100%;
-	height: 25px;
+	height: 30px;
 	padding: 0.3rem 1rem;
 	font-size: 1rem;
 	font-weight: bold;
 	color : #ffff;
-	
 	border: none;
 	outline: 0;
-	
+	border-bottom-left-radius: 1rem;
+	border-bottom-right-radius: 1rem;
 }
 
-.theme-1 .calculator-input {
-	background-color: var(--theme1-screen-background);
+.view-1 .calculator-input {
+	background-color: var(--view1-screen-background);
 	color: var(--theme1-key-background-white);
-
 }
 
-.theme-2 .calculator-input {
-	background-color: var(--theme2-screen-background);
+.view-2 .calculator-input {
+	background-color: var(--view2-keypad-background);
 	color: var(--theme2-yellow);
-
 }
 
-.theme-3 .calculator-input {
-	background-color: var(--theme3-screen-background);
+.view-3 .calculator-input {
+	background-color: var(--view3-screen-background);
 	color: var(--theme3-yellow);
-
 }
 
-.calculator__buttons {
+.calculator-buttons {
   	display: flex;
-  	border: px solid red;
+  	border: none;
   	flex: 1;
   	display: grid;
   	grid-template-columns: repeat(4, 1fr);
-  	font-size: 1rem;
+  	font-size: 2.2rem;
   	font-weight: 700;
   	gap: 1.8rem;
   	padding: 1.8rem;
   	border-radius: 1rem;
 }
 
-.calculator__btn {
+
+.calculator-btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -379,29 +387,29 @@
 	cursor: pointer;
 }
 
-.calculator__btn button {
+.calculator-btn button {
 	border: none;
 }
 
-.theme-1 .calculator__btn .delete-btn {
+.view-1 .calculator-btn .delete-btn {
 	color:#ffff !important;
 }
 
-.calculator__btn .delete-btn,
-.calculator__btn .operator-btn {
+.calculator-btn .delete-btn,
+.calculator-btn .operator-btn {
 	box-shadow:none !important;
 } 
 
-.calculator__btn--reset {
+.calculator-btn-reset {
 	grid-column: 1/3;
 	font-size: 0.8rem;
 	
 }
-.calculator__btn--del {
+.operator-btn {
 	font-size: 1rem;
 }
 
-.calculator__btn--result {
+.calculator-btn-result {
 	grid-column: 3/5;
 }
 
@@ -415,19 +423,19 @@
 
 @media (min-width: 980px) {
 	.calculator-container {
-		padding: 0 !important;
+		padding: 2%;
 	}
 
-	.theme-1 .calculator-container {
-		border: 1px solid var(--theme1-main-background);
+	.view-1 .calculator-container {
+		border: 1px solid var(--view1-main-background);
 	}
 
-	.theme-2 .calculator-container {
-		border: 1px solid var(--theme2-main-background);
+	.view-2 .calculator-container {
+		border: 1px solid var(--view2-main-background);
 	}
 	
-	.theme-3 .calculator-container {
-		border: 1px solid var(--theme3-main-background);
+	.view-3 .calculator-container {
+		border: 1px solid var(--view3-main-background);
 	}
 	
 	.calculator-box {
@@ -436,20 +444,21 @@
 	}
 
 	.results-history-screen {
-		height:80px;
+		max-height:100px;
 	}
 
-	.calculator__buttons {
+	.calculator-buttons {
 		font-size: 2.5rem;
 	}
 
-	.calculator__btn--reset {
+	.calculator-btn-reset {
 		font-size: 2rem;
 	}
 
-	.calculator__btn--del {
+	.calculator-btn-delete {
 		font-size: 2rem;
 	}
+	
 }
 
 
