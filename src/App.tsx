@@ -5,6 +5,7 @@ import * as calcDisplay from './display';
 import Calculator from './calculator';
 import {State} from './types';
 
+const calculator = new Calculator();
 
 class App extends Component<any, State> {
 		
@@ -30,8 +31,7 @@ class App extends Component<any, State> {
 
 	componentDidMount = () => {
 		calcDisplay.disablSoftKeyboard()
-		console.log(eval('1+0.1*2'))
-		
+			
 		const allBtns = document.querySelector('.calculator-buttons') as HTMLDivElement;
 				
 		allBtns?.addEventListener('click', this.handleKeyPress)
@@ -83,25 +83,22 @@ class App extends Component<any, State> {
 		}
 
 		if (expression && !expression.includes('%')) {
-			
-			console.log(expression)
+	
 			results = results += `${expression}`;	
 			return this.setResults(results)		
 		}
 
 		// If we can still get here, means expression contain percentage sign.
 		// Expression with involve complex calculation login, so lets take care of them.
-		
-		
-		const Calc = new Calculator();
-		Calc.handlePerCalculation(this, expression)
+				
+		calculator.handlePerCalculation(this, expression)
 	
 		
 	};
 
 	isValidExpression = (expression:string):boolean => {
 		let end = expression.length - 1; 
-		if (this.isSymbol(expression[end])) {
+		if (calculator.isOperator(expression[end])) {
 			return false
 												
 		}
@@ -113,10 +110,6 @@ class App extends Component<any, State> {
 		let error:string = "Malformed Expression"
 		this.setState({error});
 
-	};
-
-	isSymbol = (element:string):boolean => {
-		return ['+','-', 'x', 'X', '=', '/', '*'].indexOf(element) >= 0;
 	};
 
 	setResults = (expression:string, format:number = 0) => {
@@ -190,6 +183,10 @@ class App extends Component<any, State> {
 
 	// Track cursor position and insert carecter in.
 	insertExpression = (value:string) => {
+		if (!value) {
+			return
+		}
+
 		const input =  document.querySelector('.calculator-input') as HTMLInputElement;
 		
 		let start:number = input.selectionStart || 0;
