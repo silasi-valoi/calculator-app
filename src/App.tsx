@@ -1,41 +1,20 @@
-import React, { Component } from 'react';
+import React, { ChangeEvent, Component } from 'react';
 import './App.css';
 import CalcTemplate from './templates'
+import * as calcDisplay from './display';
 import Calculator from './calculator';
-
-interface Props {
-	
-	
-}
+import {State} from './types';
 
 
-interface Results {
-	expression:string,
-	results:string,
-}
-
-  
-interface State {
-	error:string,
-	currentTheme:number,
-	resultHistory:Results[],
-	expression:string,
-	calculated:boolean,
-}
-
-class App extends Component<Props, State> {
+class App extends Component<any, State> {
 		
 	readonly state : State = {
 		error: '',
 		resultHistory : [],
-		expression : "10+10",
-		calculated : false,
+		expression : "",
 		currentTheme:1,
 
 	}
-	constructor(props:Props){
-		super(props)
-	};
 
 	readonly self = this;
 
@@ -50,10 +29,12 @@ class App extends Component<Props, State> {
 	}
 
 	componentDidMount = () => {
-		this.disablSoftKeyboard()
+		calcDisplay.disablSoftKeyboard()
+		console.log(eval('1+0.1*2'))
+		
 		const allBtns = document.querySelector('.calculator-buttons') as HTMLDivElement;
 				
-		allBtns?.addEventListener('click', this.handleKeyboard)
+		allBtns?.addEventListener('click', this.handleKeyPress)
 				
 		let currentTheme = this.state.currentTheme;
 		document.body.classList.add(`view-${currentTheme}`);
@@ -62,56 +43,16 @@ class App extends Component<Props, State> {
 
 	// Swicth theme and keep input box focused.
 	changeTheme = () => {
-		let justifyValues = ['flex-start', 'center', 'flex-end']; 
-		let currentTheme = this.state.currentTheme;
-		
-		if (currentTheme === 3) {
-			document.body.classList.remove(`view-${currentTheme-1}`)
-			document.body.classList.remove(`view-${currentTheme}`)
-			currentTheme = 0
+		calcDisplay.changeTheme(this, this.state.currentTheme)
 			
-		}
-		
-		currentTheme++
-		document.body.classList.add(`view-${currentTheme}`);
-		let viewSwitch = document.querySelector('.change-view') as HTMLDivElement;
-		viewSwitch.style.justifyContent = justifyValues[currentTheme - 1]
-				
-		this.setState({currentTheme})
-		const input = document.querySelector('.calculator-input') as HTMLInputElement;
-		input.focus();
 	}
 
-	//Disable soft keyboard on mibile
-	disablSoftKeyboard = () => {
-		let input = document.querySelector('.calculator-input') as HTMLInputElement;
-		input.focus();
-		
-		if(window.matchMedia("(max-width : 980px)").matches){
-		
-			// Prevent soft keyboard from poping up.
-			input.readOnly = true;
-		
-			setTimeout(() => {
-				input = document.querySelector('.calculator-input') as HTMLInputElement;;
-				input.readOnly = false;
-			});
-		}else{
-
-			input.readOnly = false;
-		}
-	}
 	
-	handleFormChange = (e: { preventDefault: () => void; target: { [x: string]: any; }; }) => {
+	readonly handleFormChange = (e:ChangeEvent<HTMLInputElement>) => {
 		if (e) e.preventDefault()
-		this.disablSoftKeyboard();
+		calcDisplay.disablSoftKeyboard();
 	
 		let data:string = e.target['value']
-		
-		if(data.length === 0){
-			this.setState({calculated:false})
-		}
-
 		this.setState({expression:data, error:''})
 	}; 
 
@@ -123,6 +64,9 @@ class App extends Component<Props, State> {
 
 	// Do calculations on current expression. 
 	processResults = (expression?:string) => {
+		/*
+			Do calculation on current expression
+		*/
 		
 		if (!expression) {
 			expression = this.state.expression;
@@ -148,73 +92,11 @@ class App extends Component<Props, State> {
 		// If we can still get here, means expression contain percentage sign.
 		// Expression with involve complex calculation login, so lets take care of them.
 		
-		let operator:string = '';
-		let operand1:string = '';
-		let operand2:string = '';
-		let decimalVal1:number = 0;
-		let decimalVal2:number = 0;
 		
-		let executableStr:string = '';
+		const Calc = new Calculator();
+		Calc.handlePerCalculation(this, expression)
 	
-		for (let index = 0; index < expression.length; index++) {
-			const element = expression[index];
-
-			if (this.isSymbol(element) && element !== '%') {
-				operator = `${element}`
-			}
-			
-			
-			if(element === '%'){
-				
-				if (!decimalVal1 && !operator) {
-					const Calc = new Calculator(
-						{
-							leftHandOperand:1,
-							percentage:Number(operand1.replaceAll("(", ""))
-						}
-					);
-										
-					decimalVal1 = Calc.percentageOf(1)
-					results = `${decimalVal1}`;
-					
-				}else if(!decimalVal2){
-					
-					const calcParams = {
-						leftHandOperand:decimalVal1 || Number(operand1),
-						percentage:Number(operand2)
-					}
-
-					const Calc = new Calculator(calcParams);
-					results = Calc.getResults(operator)
-					decimalVal2 = parseFloat(results);
-				}		
-										
-			}else if(!decimalVal1 && !this.isSymbol(element) && !operator){
-				operand1 = operand1 += `${element}`
-				
-			}else if(!this.isSymbol(element)){
-							
-				operand2 = operand2 += `${element}`;
-				
-				if (executableStr && results){
-					results = executableStr += `${element}`
-				}
-
-			}else if (decimalVal2 && expression.includes(')')) {
-				executableStr = executableStr += `${decimalVal2}${element}`
-			}
-			
-			if(decimalVal1 && operand2){
-				if (!executableStr) {
-					results = executableStr += `${decimalVal1}${operator}${operand2}`
-				}
-			}
 		
-			if (results) {
-			
-				this.setResults(results, 1)
-			}
-		}
 	};
 
 	isValidExpression = (expression:string):boolean => {
@@ -234,8 +116,7 @@ class App extends Component<Props, State> {
 	};
 
 	isSymbol = (element:string):boolean => {
-		let symbols:string[] = ['+','-', 'x', '=', '/', '*'];
-		return symbols.includes(element)
+		return ['+','-', 'x', 'X', '=', '/', '*'].indexOf(element) >= 0;
 	};
 
 	setResults = (expression:string, format:number = 0) => {
@@ -247,11 +128,11 @@ class App extends Component<Props, State> {
 			
 			resultHistory.push({expression, results})
 					
-			this.setState({resultHistory, expression:results, calculated:true})
+			this.setState({resultHistory, expression:results})
 
 			// Scroll the display screen after updating results few millisecond afer. 
 			setTimeout(() => {
-				this.scrollResultsDisplay()
+				calcDisplay.scrollResultsDisplay()
 			}, 100);
 			
 
@@ -260,38 +141,51 @@ class App extends Component<Props, State> {
 		}
 	};
 
-	scrollResultsDisplay = () => {
-
-		let resultsDisplay = document.querySelector('.results-history-screen') as HTMLDivElement;
 	
-		resultsDisplay.scrollTop = resultsDisplay.scrollHeight;
-		resultsDisplay.scrollIntoView(false);
-	}
 
 	//On page keyboard handler.
-	public handleKeyboard = (e: any) => {
-		let clicked = e?.target
-		this.disablSoftKeyboard()
-
-		if (clicked?.classList.contains("calculator-btn") || 
-			clicked.classList.contains('calculator-btn-icon')) {
-
-			let value = clicked.dataset.value;
-						
-			if (value === 'result') {
-				this.processResults()
+	public handleKeyPress = (e: any) => {
+		let htmlElement = e?.target
+		calcDisplay.disablSoftKeyboard()
 				
-			}else if(value === 'reset') {
-				this.setState({expression:'', error:''});
+		const value = this.getElementValue(htmlElement)
 
-			}else if(value === 'delete'){
-				this.deleteFromExpression();
+		if (value === 'result') {
+			this.processResults()
+				
+		}else if(value === 'reset') {
+			this.setState({expression:'', error:''});
 
-			}else{
-				this.insertExpression(value)
-			}
+		}else if(value === 'delete'){
+			this.deleteFromExpression();
+
+		}else{
+			this.insertExpression(value);
+		
+		}
+		
+
+	}
+
+	getElementValue = (element:any): string => {
+		if(!element) return "";
+
+		let classList = element.classList
+
+		if (classList.contains("calculator-btn") ||
+		    classList.contains("operator-btn") ||
+			classList.contains("calculator-btn-icon")) {
+			return element.dataset.value;
+			
+		} 
+	
+		element = element.parentElement;
+		
+		if(element) {
+			return element.dataset.value;			
 		}
 
+		return "";
 	}
 
 	// Track cursor position and insert carecter in.
@@ -325,13 +219,14 @@ class App extends Component<Props, State> {
 	}
 
 	render(): React.ReactNode {
+		
 		const props = {
 			...this.state,
 			handleFormChange: this.handleFormChange.bind(this),
 			handleSubmit :   this.handleSubmit.bind(this),
 			processResults: this.processResults.bind(this),
 			changeTheme: this.changeTheme.bind(this),
-			disablSoftKeyboard : this.disablSoftKeyboard.bind(this),
+			disablSoftKeyboard : calcDisplay.disablSoftKeyboard,
 		}
 
 		return (

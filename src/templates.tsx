@@ -1,23 +1,7 @@
 import React from "react";
 import * as Icon from 'react-feather';
+import {Props} from './types';
 
-interface Results {
-	expression:string,
-	results:string,
-}
-
-interface Props {
-	handleFormChange:Function,
-    processResults:Function,
-	handleSubmit:Function,
-	disablSoftKeyboard:Function,
-	changeTheme:Function,
-    expression:string,
-	resultHistory:Results[],
-	error:string,
-	calculated:boolean,
-	
-}
 
 const CalcTemplate = (props:Props) => {
 	let iconSize:number = 17;
@@ -99,7 +83,7 @@ const CalcTemplate = (props:Props) => {
      			<div className="calculator-btn" data-value="8">8</div>
       			<div className="calculator-btn" data-value="9">9</div>
       			<div className="calculator-btn calculator-btn-delete" data-value="delete">
-				    <button className="operator-btn btn-sm delete-btn">
+				    <button className="operator-btn btn-sm delete-btn" data-value="delete">
             			<Icon.Delete 
 							className="calculator-btn-icon"
 							data-value="delete" 
@@ -112,7 +96,7 @@ const CalcTemplate = (props:Props) => {
      			<div className="calculator-btn" data-value="5">5</div>
       			<div className="calculator-btn" data-value="6">6</div>
       			<div className="calculator-btn" data-value="+">
-				    <button className="operator-btn btn-sm">
+				    <button className="operator-btn btn-sm" data-value="+">
             			<Icon.Plus className="calculator-btn-icon" data-value="+" size={iconSize}/>
         			</button>
 				</div>
@@ -120,19 +104,19 @@ const CalcTemplate = (props:Props) => {
      		 	<div className="calculator-btn" data-value="2">2</div>
       			<div className="calculator-btn" data-value="3">3</div>
       			<div className="calculator-btn" data-value="-">
-				    <button className="operator-btn btn-sm">
+				    <button className="operator-btn btn-sm" data-value="-">
             			<Icon.Minus className="calculator-btn-icon" data-value="-" size={iconSize}/>
         			</button>
 				</div>
       			<div className="calculator-btn" data-value=".">.</div>
       			<div className="calculator-btn" data-value="0">0</div>
       			<div className="calculator-btn" data-value="/">
-				    <button className="operator-btn btn-sm">
+				    <button className="operator-btn btn-sm" data-value="/">
             			<Icon.Divide className="calculator-btn-icon" data-value="/" size={iconSize}/>
         			</button>
 				</div>
       			<div className="calculator-btn" data-value="x">
-				    <button className="operator-btn btn-sm">
+				    <button className="operator-btn btn-sm" data-value="*">
             			<Icon.X className="calculator-btn-icon" data-value="*" size={iconSize}/>
         			</button>
 				</div>

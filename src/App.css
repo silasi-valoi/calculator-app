@@ -215,6 +215,7 @@
 
 .calculator-container {
 	padding: 3%;
+	height: 100vh;
 }
 
 .header-box {
@@ -366,9 +367,9 @@
   	flex: 1;
   	display: grid;
   	grid-template-columns: repeat(4, 1fr);
-  	font-size: 2.2rem;
+  	font-size: 1.8rem;
   	font-weight: 700;
-  	gap: 1.8rem;
+  	gap: 1rem;
   	padding: 1.8rem;
   	border-radius: 1rem;
 }
